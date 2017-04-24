@@ -1,0 +1,19 @@
+{
+  "name": "ioatt-firebase-server-worker",
+  "version": "1.0.0",
+  "description": "internet of all the things - firebase server worker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgeF105/ioatt-firebase-server-worker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgeF105/ioatt-firebase-server-worker/issues"
+  },
+  "homepage": "https://github.com/georgeF105/ioatt-firebase-server-worker#readme"
+}
