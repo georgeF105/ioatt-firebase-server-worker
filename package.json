@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/georgeF105/ioatt-firebase-server-worker/issues"
   },
-  "homepage": "https://github.com/georgeF105/ioatt-firebase-server-worker#readme"
+  "homepage": "https://github.com/georgeF105/ioatt-firebase-server-worker#readme",
+  "dependencies": {
+    "firebase-admin": "^4.2.1"
+  }
 }
