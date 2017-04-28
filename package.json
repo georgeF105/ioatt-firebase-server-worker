@@ -19,7 +19,8 @@
   },
   "homepage": "https://github.com/georgeF105/ioatt-firebase-server-worker#readme",
   "dependencies": {
-    "firebase-admin": "^4.2.1"
+    "firebase-admin": "^4.2.1",
+    "netatmo": "^2.1.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
