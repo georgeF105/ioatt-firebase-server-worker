@@ -20,6 +20,7 @@
   "homepage": "https://github.com/georgeF105/ioatt-firebase-server-worker#readme",
   "dependencies": {
     "@types/dotenv": "^4.0.0",
+    "@types/firebase": "^2.4.31",
     "@types/node": "^7.0.18",
     "dotenv": "^4.0.0",
     "firebase-admin": "^4.2.1",

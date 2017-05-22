@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import admin from './firebase/firebase.config';
+import { SensorsService } from './sensors/sensors.service';
 // tslint:disable-next-line:no-var-requires
 let netatmo = require('netatmo');
 
@@ -7,21 +8,23 @@ let remoteSenors = [];
 let rules = [];
 
 let db = admin.database();
-let sensorsRef = db.ref('sensors');
+// let sensorsRef = db.ref('sensors');
 let rulesRef = db.ref('rules');
 
 console.log('starting ioatt-firebase-server-worker');
 
-sensorsRef.on('value', sensorRefs => {
-    let sensorsVal = sensorRefs.val();
-    remoteSenors = Object.keys(sensorsVal)
-        .map(key => {
-            let sensor = sensorsVal[key];
-            sensor.key = key;
-            return sensor;
-        })
-        .filter(sensor => sensor.type === 'remote');
-});
+let sensorService = new SensorsService(admin);
+
+// sensorsRef.on('value', sensorRefs => {
+//     let sensorsVal = sensorRefs.val();
+//     remoteSenors = Object.keys(sensorsVal)
+//         .map(key => {
+//             let sensor = sensorsVal[key];
+//             sensor.key = key;
+//             return sensor;
+//         })
+//         .filter(sensor => sensor.type === 'remote');
+// });
 
 rulesRef.on('value', ruleRefs => {
     let rulesVal = ruleRefs.val();
@@ -36,7 +39,8 @@ rulesRef.on('value', ruleRefs => {
 setTimeout(updateAllThings, 5000);
 
 function updateAllThings() {
-    updateSensors();
+    sensorService.updateSensors();
+    // updateSensors();
     recalculateRules();
 }
 
