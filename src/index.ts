@@ -15,17 +15,6 @@ console.log('starting ioatt-firebase-server-worker');
 
 let sensorService = new SensorsService(admin);
 
-// sensorsRef.on('value', sensorRefs => {
-//     let sensorsVal = sensorRefs.val();
-//     remoteSenors = Object.keys(sensorsVal)
-//         .map(key => {
-//             let sensor = sensorsVal[key];
-//             sensor.key = key;
-//             return sensor;
-//         })
-//         .filter(sensor => sensor.type === 'remote');
-// });
-
 rulesRef.on('value', ruleRefs => {
     let rulesVal = ruleRefs.val();
     rules = Object.keys(rulesVal)
@@ -40,27 +29,7 @@ setTimeout(updateAllThings, 5000);
 
 function updateAllThings() {
     sensorService.updateSensors();
-    // updateSensors();
     recalculateRules();
-}
-
-function updateSensors() {
-    remoteSenors.forEach(sensor => {
-        getSensorData(sensor);
-    });
-}
-
-function getSensorData(sensor) {
-    let api = new netatmo(sensor.auth);
-    api.getStationsData(function(err, devices) {
-        let data = devices[0].dashboard_data;
-        postSensorData(sensor.key, data);
-    });
-}
-
-function postSensorData(key, data) {
-    console.log('updating sensor data');
-    db.ref(`sensors/${key}/data`).set(data);
 }
 
 function recalculateRules() {

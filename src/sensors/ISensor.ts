@@ -1,6 +1,10 @@
+import { SensorTypeEnum } from './SensorTypeEnum';
+import { ISensorData } from './ISensorData';
+
 export interface ISensor {
-  auth: any;
+  auth?: any;
   key: string;
   type: string;
-  data: any;
+  data: ISensorData;
+  lastUpdated: Date;
 }
