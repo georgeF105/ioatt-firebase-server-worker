@@ -9,7 +9,7 @@ let netatmo = require('netatmo');
 let remoteSenors = [];
 let rules = [];
 
-const INTERVAL_TIME = 10000;
+const INTERVAL_TIME = 5 * 60 * 1000; // every 5 mins
 
 console.log('starting ioatt-firebase-server-worker');
 

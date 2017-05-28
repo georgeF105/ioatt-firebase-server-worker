@@ -5,7 +5,7 @@ const RULES_REF = 'rules';
 
 export class RulesService {
   private rulesRef: Firebase;
-  private rules: Array<IRule>;
+  private rules: Array<IRule> = [];
 
   constructor (
     private firebaseAdmin
@@ -27,6 +27,7 @@ export class RulesService {
         rule.key = key;
         return rule;
       });
+    this.updateRules();
   }
 
   private calculateRuleAndUpdateDevice (rule: IRule): Promise<void> {
@@ -40,7 +41,10 @@ export class RulesService {
 
   private updateLinkedDeviceState (rule: IRule, state: boolean): Promise<void> {
     console.log('setting', rule.linkedDeviceKey, 'to', state);
-    return this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}/state`).set(state);
+    let updates = {};
+    updates['/state'] = state;
+    updates['/updatedByHost'] = true;
+    return this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}`).update(updates);
   }
 
   private calculateConditionsConditionally (previousValuePromise: Promise<boolean>, currentCondition: IRuleCondition): Promise<boolean> {
