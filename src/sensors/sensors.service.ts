@@ -5,7 +5,7 @@ import { SensorTypeEnum } from './SensorTypeEnum';
 // tslint:disable-next-line:no-var-requires
 let netatmo = require('netatmo');
 
-const SENSORS = 'sensors';
+export const SENSORS_REF = 'sensors';
 
 export class SensorsService {
   private sensorsRef: Firebase;
@@ -14,7 +14,7 @@ export class SensorsService {
   constructor (
     private firebaseAdmin
   ) {
-    this.sensorsRef = firebaseAdmin.database().ref(SENSORS);
+    this.sensorsRef = firebaseAdmin.database().ref(SENSORS_REF);
     this.sensorsRef.on('value', (sensorSnapshot) => this.saveSensorSnapshot(sensorSnapshot));
   }
 
