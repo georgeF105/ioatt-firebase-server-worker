@@ -4,8 +4,8 @@
   "description": "internet of all the things - firebase server worker",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "nodemon dist/index.js",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,8 +19,14 @@
   },
   "homepage": "https://github.com/georgeF105/ioatt-firebase-server-worker#readme",
   "dependencies": {
+    "@types/dotenv": "^4.0.0",
+    "@types/firebase": "^2.4.31",
+    "@types/node": "^7.0.18",
+    "dotenv": "^4.0.0",
     "firebase-admin": "^4.2.1",
-    "netatmo": "^2.1.0"
+    "netatmo": "^2.1.0",
+    "tslint": "^5.2.0",
+    "typescript": "^2.3.2"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

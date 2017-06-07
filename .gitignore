@@ -38,3 +38,7 @@ jspm_packages
 
 # Firebase
 firebase-admin.key.json
+
+.env
+
+dist
