@@ -44,6 +44,7 @@ export class RulesService {
     let updates = {};
     updates['/state'] = state;
     updates['/updatedByHost'] = true;
+    updates['/updatedByDevice'] = false;
     return this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}`).update(updates);
   }
 
@@ -72,11 +73,11 @@ export class RulesService {
 
   private calculateConditionState (condition: IRuleCondition): Promise<boolean> {
     if (condition.type === 'time') {
-        return this.calculateTimeCondition(condition);
+      return this.calculateTimeCondition(condition);
     }
 
     if (condition.type === 'temperature') {
-        return this.calculateTemperatureCondition(condition);
+      return this.calculateTemperatureCondition(condition);
     }
     return Promise.resolve(false);
   }
@@ -85,7 +86,6 @@ export class RulesService {
     let startTime = this.getDateFromTime(condition.startTime);
     let endTime = this.getDateFromTime(condition.endTime);
     let currentTime = Date.now();
-
     return Promise.resolve(currentTime.valueOf() > startTime.valueOf() && currentTime.valueOf() < endTime.valueOf());
   }
   private getDateFromTime (time: string): Date {
@@ -99,7 +99,7 @@ export class RulesService {
   private calculateTemperatureCondition (condition: IRuleCondition): Promise<boolean> {
     return this.fetchSensorData(condition.sensorKey, condition.sensorDataKey)
       .then(sensorData => {
-        return condition.value < sensorData;
+        return condition.value > sensorData;
       });
   }
 
