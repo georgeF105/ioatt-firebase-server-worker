@@ -58,7 +58,7 @@ export class RulesService {
     return Promise.all([previousValuePromise, currentConditionPromise])
       .then(([previousValue, currentConditionValue]) => {
         if (!currentCondition) {
-          return Promise.resolve(true);
+          return true;
         }
         if (currentCondition.logicOperator === 'or') {
           return previousValue || currentConditionValue;
@@ -72,7 +72,7 @@ export class RulesService {
         if (currentCondition.logicOperator === 'xand') {
           return previousValue && !currentConditionValue;
         }
-        return Promise.reject('cant find logical operator type');
+        throw('cant find logical operator type');
       });
   }
 
