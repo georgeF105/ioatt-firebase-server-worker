@@ -19,6 +19,11 @@ export class RulesService {
       .then(() => undefined);
   }
 
+  private onRulesUpdate (rulesSnapshot: FirebaseDataSnapshot): void {
+    this.saveRulesSnapshot(rulesSnapshot);
+    this.updateRules();
+  }
+
   private saveRulesSnapshot (rulesSnapshot: FirebaseDataSnapshot): void {
     let ruleObjects = rulesSnapshot.val();
     this.rules = Object.keys(ruleObjects)
