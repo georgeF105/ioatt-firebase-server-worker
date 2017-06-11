@@ -138,34 +138,26 @@ export class RulesService {
   private calculateWeekDayCondition (condition: IWeekDayRuleCondition): Promise<boolean> {
     let weekDay: weekDayEnum = this.getCurrentWeekDay();
     let state: boolean;
-    console.log('today is');
     switch (weekDay) {
       case weekDayEnum.monday:
-        console.log('monday');
         state = condition.monday;
         break;
       case weekDayEnum.tuesday:
-        console.log('tuesday');
         state = condition.tuesday;
         break;
       case weekDayEnum.wednesday:
-        console.log('wednesday');
         state = condition.wednesday;
         break;
       case weekDayEnum.thursday:
-        console.log('thursday');
         state = condition.thursday;
         break;
       case weekDayEnum.friday:
-        console.log('friday');
         state = condition.friday;
         break;
       case weekDayEnum.saturday:
-        console.log('saturday');
         state = condition.saturday;
         break;
       case weekDayEnum.sunday:
-        console.log('sunday');
         state = condition.sunday;
         break;
       default:
@@ -176,7 +168,6 @@ export class RulesService {
 
   private getCurrentWeekDay(): weekDayEnum {
     let date = new Date();
-    console.log('HERERE', date);
     return date.getDay();
   }
 }
