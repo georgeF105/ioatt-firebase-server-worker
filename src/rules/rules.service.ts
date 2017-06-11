@@ -1,7 +1,20 @@
 import { IRule } from './IRule';
 import { SENSORS_REF } from '../sensors/sensors.service';
 import { IRuleCondition } from './IRuleCondition';
+import { ITimeRuleCondition } from './ITimeRuleCondition';
+import { ITemperatureRuleCondition } from './ITemperatureRuleCondition';
+import { IWeekDayRuleCondition } from './IWeekDayRuleCondition';
 const RULES_REF = 'rules';
+
+enum weekDayEnum {
+  sunday = 0,
+  monday = 1,
+  tuesday = 2,
+  wednesday = 3,
+  thursday = 4,
+  friday = 5,
+  saturday = 6
+}
 
 export class RulesService {
   private rulesRef: Firebase;
@@ -78,16 +91,20 @@ export class RulesService {
 
   private calculateConditionState (condition: IRuleCondition): Promise<boolean> {
     if (condition.type === 'time') {
-      return this.calculateTimeCondition(condition);
+      return this.calculateTimeCondition(<ITimeRuleCondition>condition);
     }
 
     if (condition.type === 'temperature') {
-      return this.calculateTemperatureCondition(condition);
+      return this.calculateTemperatureCondition(<ITemperatureRuleCondition>condition);
+    }
+
+    if (condition.type === 'weekDay') {
+      return this.calculateWeekDayCondition(<IWeekDayRuleCondition>condition);
     }
     return Promise.resolve(false);
   }
 
-  private calculateTimeCondition (condition: IRuleCondition): Promise<boolean> {
+  private calculateTimeCondition (condition: ITimeRuleCondition): Promise<boolean> {
     let startTime = this.getDateFromTime(condition.startTime);
     let endTime = this.getDateFromTime(condition.endTime);
     let currentTime = Date.now();
@@ -101,7 +118,7 @@ export class RulesService {
     return date;
   }
 
-  private calculateTemperatureCondition (condition: IRuleCondition): Promise<boolean> {
+  private calculateTemperatureCondition (condition: ITemperatureRuleCondition): Promise<boolean> {
     return this.fetchSensorData(condition.sensorKey, condition.sensorDataKey)
       .then(sensorData => {
         return condition.value > sensorData;
@@ -111,5 +128,50 @@ export class RulesService {
   private fetchSensorData (sensorKey: string, sensorDataKey: string): Promise<number> {
     return this.firebaseAdmin.database().ref(`${SENSORS_REF}/${sensorKey}/data/${sensorDataKey}`).once('value')
       .then(dataSnapshot => dataSnapshot.val());
+  }
+
+  private calculateWeekDayCondition (condition: IWeekDayRuleCondition): Promise<boolean> {
+    let weekDay: weekDayEnum = this.getCurrentWeekDay();
+    let state: boolean;
+    console.log('today is');
+    switch (weekDay) {
+      case weekDayEnum.monday:
+        console.log('monday');
+        state = condition.monday;
+        break;
+      case weekDayEnum.tuesday:
+        console.log('tuesday');
+        state = condition.tuesday;
+        break;
+      case weekDayEnum.wednesday:
+        console.log('wednesday');
+        state = condition.wednesday;
+        break;
+      case weekDayEnum.thursday:
+        console.log('thursday');
+        state = condition.thursday;
+        break;
+      case weekDayEnum.friday:
+        console.log('friday');
+        state = condition.friday;
+        break;
+      case weekDayEnum.saturday:
+        console.log('saturday');
+        state = condition.saturday;
+        break;
+      case weekDayEnum.sunday:
+        console.log('sunday');
+        state = condition.sunday;
+        break;
+      default:
+        state = false;
+    }
+    return Promise.resolve(state);
+  }
+
+  private getCurrentWeekDay(): weekDayEnum {
+    let date = new Date();
+    console.log('HERERE', date);
+    return date.getDay();
   }
 }
