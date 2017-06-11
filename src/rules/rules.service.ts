@@ -28,7 +28,12 @@ export class RulesService {
   }
 
   public updateRules (): Promise<void> {
-    return Promise.all(this.rules.map(rule => this.calculateRuleAndUpdateDevice(rule)))
+    return Promise.all(this.rules.map(rule => {
+        if (!rule.active) {
+          return Promise.resolve();
+        }
+        return this.calculateRuleAndUpdateDevice(rule);
+      }))
       .then(() => undefined);
   }
 
