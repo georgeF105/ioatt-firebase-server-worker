@@ -1,9 +1,5 @@
 export interface IRuleCondition {
-  sensorKey?: string;
-  sensorDataKey?: string;
-  type: string;
-  value?: number;
+  linkedDeviceKey: string;
+  type: 'temperature' | 'time' | 'weekDay';
   logicOperator: 'or' | 'and' | 'xor' | 'xand';
-  startTime?: string;
-  endTime?: string;
 }

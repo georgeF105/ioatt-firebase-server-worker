@@ -8,5 +8,5 @@ export interface IWeekDayRuleCondition extends IRuleCondition {
   friday: boolean;
   saturday: boolean;
   sunday: boolean;
-  type: 'time';
+  type: 'weekDay';
 }
