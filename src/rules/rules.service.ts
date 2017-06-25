@@ -63,7 +63,6 @@ export class RulesService {
   }
 
   private updateLinkedDeviceState (rule: IRule, state: boolean): Promise<void> {
-    console.log('setting', rule.linkedDeviceKey, 'to', state);
     let updates = {};
     updates['/state'] = state;
     updates['/updatedByHost'] = true;
@@ -71,6 +70,7 @@ export class RulesService {
 
     return this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}/state`).once('value').then(actualState => {
       if (actualState.val() !== state) {
+        console.log('setting', rule.linkedDeviceKey, 'to', state);
         this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}`).update(updates);
       }
       return Promise.resolve();
