@@ -68,7 +68,13 @@ export class RulesService {
     updates['/state'] = state;
     updates['/updatedByHost'] = true;
     updates['/updatedByDevice'] = false;
-    return this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}`).update(updates);
+
+    return this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}/state`).once('value').then(actualState => {
+      if (actualState.val() !== state) {
+        this.firebaseAdmin.database().ref(`devices/${rule.linkedDeviceKey}`).update(updates);
+      }
+      return Promise.resolve();
+    });
   }
 
   private calculateConditionsConditionally (previousValuePromise: Promise<boolean>, currentCondition: IRuleCondition): Promise<boolean> {
